@@ -1,9 +1,10 @@
 // List of possible solution words
-const words = ["CRANE", "APPLE", "BRAVE", "GRAPE", "PLANT", "SCALE", "STONE"];
+const words = ["STONE", "GLORY", "GLOVE", "GLYPH", "GNASH", "GOING", "GOLEM", "GONER", "GOOFY", "GOOSE", "GORGE", "LINEN", "LINER", "LINGO", "LITHE", "LIVER", "LOCAL", "LOCUS", "LOFTY", "LOGIC", "LOOPY", "LOSER","APPLE", "BRAVE", "CANDY", "DAISY", "EAGLE", "FANCY", "GLOBE", "HEART", "IVORY", "JOKER", "KARMA", "LEMON", "MELON", "NOBLE", "OCEAN", "PEARL", "QUEEN", "ROBIN", "STORM", "TIGER"];
 // Randomly select a word from the list as the solution
 const solution = words[Math.floor(Math.random() * words.length)];
 
 let currentRow = 0;
+let gameOver = false; // Track if the game is over
 
 // Generate the game board
 const board = document.getElementById('board');
@@ -57,6 +58,11 @@ function handleKeydown(e) {
 
 // Handle submission
 function handleSubmit() {
+    if (gameOver) {
+        location.reload(); // Refresh the page to start a new game
+        return;
+    }
+
     const currentInputs = Array.from(document.querySelectorAll(`[data-row="${currentRow}"]`));
     const guess = currentInputs.map(input => input.value.toUpperCase()).join('');
 
@@ -68,18 +74,27 @@ function handleSubmit() {
     if (guess === solution) {
         document.getElementById('message').textContent = 'Congratulations! You guessed the word!';
         disableAllInputs();
+        endGame();
         return;
     }
 
     currentRow++;
     if (currentRow === 6) {
-        document.getElementById('message').textContent = `Game over! The word was ${solution}.`;
+        document.getElementById('message').textContent = `Game over! The word was ${solution}. Click Play again to play again.`;
         disableAllInputs();
+        endGame();
     } else {
         currentInputs.forEach(input => input.disabled = true);
         document.querySelector(`[data-row="${currentRow}"][data-col="0"]`).focus();
         document.getElementById('message').textContent = '';
     }
+}
+
+// End the game
+function endGame() {
+    gameOver = true;
+    const submitButton = document.getElementById('submit');
+    submitButton.textContent = 'Play Again'; // Update button text
 }
 
 // Disable all inputs
