@@ -63,3 +63,18 @@ input[disabled] {
     color: #333;
     margin-top: 10px;
 }
+.home-btn {
+    display: inline-block;
+    margin-top: 20px;
+    text-decoration: none;
+    color: white;
+    background-color: #007BFF;
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-size: 16px;
+    transition: background-color 0.2s;
+}
+
+.home-btn:hover {
+    background-color: #0056b3;
+}
